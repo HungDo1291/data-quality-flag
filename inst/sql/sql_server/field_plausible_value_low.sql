@@ -1,0 +1,41 @@
+
+/********* 
+PLAUSIBLE_VALUE_LOW (with flag)
+get number of records and the proportion to total number of eligible records that fall below this threshold
+
+Parameters used in this template:
+cdmDatabaseSchema = @cdmDatabaseSchema
+cdmTableName = @cdmTableName
+cdmFieldName = @cdmFieldName
+plausibleValueLow = @plausibleValueLow
+**********/
+
+update @cdmDatabaseSchema.@cdmTableName set flag = true
+where @cdmTableName.@cdmFieldName in
+(		
+SELECT @cdmTableName.@cdmFieldName 
+from @cdmDatabaseSchema.@cdmTableName
+where @cdmTableName.@cdmFieldName  < @plausibleValueLow
+);
+
+/***
+SELECT num_violated_rows, CASE WHEN denominator.num_rows = 0 THEN 0 ELSE 1.0*num_violated_rows/denominator.num_rows END  AS pct_violated_rows, 
+  denominator.num_rows as num_denominator_rows
+FROM
+(
+	SELECT COUNT(violated_rows.violating_field) AS num_violated_rows
+	FROM
+	(
+		SELECT '@cdmTableName.@cdmFieldName' AS violating_field, cdmTable.*
+		from @cdmDatabaseSchema.@cdmTableName cdmTable
+    where cdmTable.@cdmFieldName < @plausibleValueLow
+	) violated_rows
+) violated_row_count,
+(
+	SELECT COUNT(*) AS num_rows
+	FROM @cdmDatabaseSchema.@cdmTableName
+	where @cdmFieldName is not null
+) denominator
+;
+***/
+
