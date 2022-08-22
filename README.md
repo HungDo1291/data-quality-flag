@@ -1,3 +1,5 @@
+This project is an extension of [OHDSI Data Quality Dashboard](https://github.com/OHDSI/DataQualityDashboard)
+
 DataQualityDashboard
 ====================
 
@@ -33,7 +35,7 @@ Version 1 of the tool includes 20 different check types organized into Kahn cont
 After systematically applying the 20 check types to an OMOP CDM version approximately 3,351 individual data quality checks are resolved, run against the database, and evaluated based on a pre-specified threshold. The R package then creates a json object that is read into an RShiny application to view the results.
 
 
-<img src="https://github.com/OHDSI/DataQualityDashboard/raw/master/extras/dqDashboardScreenshot.png"/>
+<img src="extras/dqDashboardScreenshot.png" width="700">
 
 
 Features
